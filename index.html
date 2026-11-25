@@ -8,66 +8,175 @@
 <meta property="og:title" content="NuviX Bot">
 <meta property="og:description" content="Un bot de Discord que vive en Google Cloud y cambia de color con mi escritorio.">
 <meta property="og:image" content="assets/nuvix-bot.jpg">
+<meta name="theme-color" content="#1e1f22">
 <link rel="icon" href="assets/img/avatar.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="estilo.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="estilo.css?v=8">
 </head>
 <body>
-<header class="hero wrap">
-  <div class="hero-txt">
-    <div class="kicker">Python · discord.py · Google Cloud</div>
-    <h1>NuviX <span>Bot</span></h1>
-    <p>El bot de mi servidor «NuviX Basement». Corre 24/7 en una VM de Google Cloud, lleva niveles, economía y avisos para la comunidad, y habla con un agente en mi laptop: cuando cambio de fondo, el bot cambia de avatar, de ícono y de color.</p>
-    <div class="cifras" id="cifras"></div>
-    <div class="botones"><a class="btn" href="#funciones">Qué hace</a><a class="btn sec" href="https://nuvix16.github.io/Rice-NuviX/">El escritorio</a><a class="btn sec" href="https://github.com/NuviX16">GitHub</a></div>
+<header class="invitacion">
+  <video class="inv-fondo" id="invFondo" src="assets/tema/lain_wired_1.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
+  <div class="inv-velo"></div>
+  <div class="inv-cont">
+    <div class="inv-txt">
+      <p class="inv-meta">bot de Discord · Python · Google Cloud</p>
+      <h1>El bot que vive en <span>mi servidor</span> y cambia con <span>mi escritorio</span></h1>
+      <p>NuviX lleva los niveles, la economía y los avisos de «NuviX Basement», y un agente en mi laptop le cuenta qué fondo tengo puesto: el bot cambia de avatar, el servidor de ícono y mi rol de color.</p>
+    </div>
+    <div class="tarjeta-inv">
+      <img class="inv-banner" id="invBanner" src="assets/fondo/lain_wired.webp" alt="">
+      <div class="inv-cuerpo">
+        <img class="inv-icono av-bot" src="assets/retrato/lain_wired.webp" alt="Avatar del bot">
+        <p class="inv-te">te invitaron a conocer a</p>
+        <p class="inv-nom">NuviX <span class="tag-bot">✓ APP</span></p>
+        <p class="inv-est"><i class="en-linea"></i> en línea 24/7 <i class="gris"></i> 60 comandos</p>
+        <div class="inv-temas"><p>cambia el tema del escritorio:</p><div id="temasInv" role="radiogroup" aria-label="Tema"></div></div>
+        <a class="inv-btn" href="#servidor">Entrar al servidor</a>
+        <a class="inv-btn sec" href="https://nuvix16.github.io/Rice-NuviX/">Ver el escritorio</a>
+      </div>
+    </div>
   </div>
-  <div class="hero-vid"><video controls preload="metadata" playsinline poster="assets/nuvix-bot.jpg" aria-label="Video del bot en acción"><source src="assets/nuvix-bot.mp4" type="video/mp4"></video></div>
 </header>
 
-<main>
-  <section class="wrap blq" id="arquitectura" aria-labelledby="hArq">
-    <h2 id="hArq">Cómo está armado</h2>
-    <p class="muted">Son dos procesos. El de la nube atiende a la gente; el de la laptop solo reporta el estado del escritorio. Se comunican por un canal privado del servidor, así la laptop no necesita abrir puertos.</p>
-    <div class="arq">
-      <div class="nodo"><h3>Laptop · Arch Linux</h3><b>agente_pc.py</b><ul><li>lee el tema, la música y la salud del sistema</li><li>cambia avatar, ícono y color del rol</li><li>responde a <code>/pc</code> con acciones permitidas</li><li>sobrevive a la suspensión (reconecta solo)</li></ul></div>
-      <div class="enlace"><span>mensaje de estado + pedidos</span><i aria-hidden="true">⇄</i><small>canal privado ꒰⚙꒱・nuvix-pc</small></div>
-      <div class="nodo"><h3>Google Cloud · e2-micro</h3><b>bot.py + 26 módulos</b><ul><li>comandos, botones y tareas programadas</li><li>datos en JSON, respaldo cifrado diario</li><li>Uptime Kuma vigila que siga vivo</li><li>avisos al celular con ntfy</li></ul></div>
+<section class="ventana-app" id="servidor" aria-label="El servidor NuviX Basement">
+<div class="app">
+  <nav class="servidores" aria-label="Servidores">
+    <a class="srv activo" href="#bienvenida" title="NuviX Basement"><img src="assets/logo-servidor.webp" alt="NuviX Basement"></a>
+    <span class="sep"></span>
+    <a class="srv" href="https://nuvix16.github.io/Rice-NuviX/" title="El escritorio (rice)"><img src="assets/logo-rice.webp" alt="El escritorio"></a>
+    <a class="srv" href="https://github.com/NuviX16" title="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5Z"/></svg></a>
+  </nav>
+
+  <aside class="canales" aria-label="Canales">
+    <header class="banner"><img id="bannerImg" src="assets/fondo/lain_wired.webp" alt=""><h1>NuviX Basement</h1></header>
+    <div class="lista">
+      <p class="cat">⋆｡˚ ☾ el sótano ☾ ˚｡⋆</p>
+      <a href="#bienvenida">꒰♡꒱・bienvenida</a>
+      <a href="#como-funciona">꒰⚙꒱・cómo-funciona</a>
+      <a href="#temas">꒰✦꒱・temas</a>
+      <p class="cat">⋆｡˚ ⌨ comandos ⌨ ˚｡⋆</p>
+      <a href="#comandos">꒰⌨꒱・comandos</a>
+      <a href="#tarjetas">꒰✧꒱・tarjetas</a>
+      <a href="#hecho-con">꒰☁꒱・hecho-con</a>
     </div>
-  </section>
+    <footer class="yo"><img src="assets/img/yo.webp" alt=""><div><b>nuvix</b><small>☾ escuchando Bôa</small></div></footer>
+  </aside>
 
-  <section class="wrap blq" id="tema" aria-labelledby="hTema">
-    <h2 id="hTema">Sigue al escritorio</h2>
-    <p class="muted">Cada cambio de fondo en la laptop llega al servidor como una tarjeta animada con el retrato y la paleta del tema nuevo. El rol del dueño, el avatar del bot y el ícono del servidor toman el mismo color.</p>
-    <div class="tarjetas" id="tarjetas"></div>
-  </section>
+  <main class="chat">
+    <section class="canal" id="bienvenida" aria-labelledby="c1">
+      <header class="cab"><h2 id="c1"><i>#</i>꒰♡꒱・bienvenida</h2><p>todo lo que hace el bot del sótano</p></header>
+      <article class="msg">
+        <img class="av" src="assets/img/yo.webp" alt="">
+        <div class="cuerpo">
+          <p class="quien"><b class="rol-yo">nuvix</b><time>hoy a las 18:40</time></p>
+          <p>bienvenidos al sótano ☾ les presento al bot que hice para el server: <b>NuviX</b></p>
+          <p>vive 24/7 en una VM de Google Cloud, lleva niveles, economía y avisos, y habla con un programa en mi laptop: cuando cambio de fondo en mi escritorio, el bot cambia de avatar, el server de ícono y mi rol de color</p>
+          <div class="adjunto video"><video controls preload="metadata" playsinline poster="assets/nuvix-bot.jpg" aria-label="Video del bot en acción"><source src="assets/nuvix-bot.mp4" type="video/mp4"></video></div>
+          <div class="reacciones"><span><img src="assets/img/emo-reze.webp" alt=":reze_icono:">9</span><span><img src="assets/img/emo-bocchi.webp" alt=":bocchi_chibi:">7</span><span>☾ 12</span></div>
+        </div>
+      </article>
+      <article class="msg sigue">
+        <div class="cuerpo"><p>son <b>60 comandos</b> en 27 módulos de Python, casi 5 mil líneas. abajo está todo 👇</p></div>
+      </article>
+      <div class="sistema"><span class="flecha-verde" aria-hidden="true">→</span><p><b>persona_nueva</b> acaba de llegar al sótano. <time>hoy a las 18:47</time></p></div>
+      <article class="msg">
+        <img class="av av-bot" src="assets/retrato/lain_wired.webp" alt="">
+        <div class="cuerpo">
+          <p class="quien"><b class="rol-bot">NuviX</b><span class="tag-bot">✓ APP</span><time>hoy a las 18:47</time></p>
+          <p>꒰✿꒱ hola <span class="mencion">@persona_nueva</span>, bienvenid@ al sótano de nuvix ☾</p>
+          <p class="sub">lee las reglas de arriba y toca <b>entrar al sótano</b> para ver todo el servidor</p>
+          <video class="bienvenida-anim" id="bvVideo" src="assets/bienvenida/lain_wired.mp4" muted loop playsinline autoplay preload="metadata" aria-label="Tarjeta de bienvenida animada"></video>
+        </div>
+      </article>
+    </section>
 
-  <section class="wrap blq" id="funciones" aria-labelledby="hFun">
-    <h2 id="hFun">Qué hace</h2>
-    <div class="filtros" id="filtros"></div>
-    <div class="funciones" id="grupos"></div>
-  </section>
+    <section class="canal" id="como-funciona" aria-labelledby="c2">
+      <header class="cab"><h2 id="c2"><i>#</i>꒰⚙꒱・cómo-funciona</h2><p>dos programas que se hablan por un canal privado</p></header>
+      <article class="msg">
+        <img class="av" src="assets/img/yo.webp" alt="">
+        <div class="cuerpo">
+          <p class="quien"><b class="rol-yo">nuvix</b><time>hoy a las 18:41</time></p>
+          <p>así está armado: la laptop nunca abre un puerto, solo deja su estado en un mensaje que el bot de la nube lee</p>
+<pre class="bloque-codigo"><span class="c">  laptop · Arch Linux                      Google Cloud · e2-micro</span>
+  ┌─────────────────────┐   ꒰⚙꒱・nuvix-pc   ┌─────────────────────────┐
+  │ <b>agente_pc.py</b>        │ ──── estado ────► │ <b>bot.py</b> + 26 módulos      │
+  │ tema, música, salud │ ◄─── pedidos ──── │ comandos, botones,      │
+  │ avatar, ícono, rol  │                   │ tareas programadas      │
+  └─────────────────────┘                   └────────────┬────────────┘
+                                         Uptime Kuma · ntfy · respaldo cifrado</pre>
+          <ul class="lista-msg">
+            <li>si la laptop se suspende, al volver se reconecta sola</li>
+            <li><code>/pc</code> solo acepta acciones de una lista: estado, tema, bloquear, música, volumen, salud</li>
+            <li>los datos van en JSON y se respaldan cifrados cada noche</li>
+          </ul>
+        </div>
+      </article>
+    </section>
 
-  <section class="wrap blq" id="tarjetas-bot" aria-labelledby="hCard">
-    <h2 id="hCard">Tarjetas que dibuja</h2>
-    <p class="muted">Todas se generan con Pillow en el momento, con el avatar y el color de cada quien.</p>
-    <div class="cards">
-      <figure><img src="assets/img/perfil.webp" alt="Tarjeta de /perfil" loading="lazy"><figcaption><code>/perfil</code> nivel, lunas, racha, pesca, lo que juegas y escuchas</figcaption></figure>
-      <figure><img src="assets/img/nivel.webp" alt="Tarjeta de /nivel" loading="lazy"><figcaption><code>/nivel</code> XP por mensajes, con roles a los niveles 5, 10, 20 y 30</figcaption></figure>
-      <figure><img src="assets/img/spotify.webp" alt="Tarjeta de /spotify" loading="lazy"><figcaption><code>/spotify</code> la canción de alguien con su portada de fondo</figcaption></figure>
-    </div>
-  </section>
+    <section class="canal" id="temas" aria-labelledby="c3">
+      <header class="cab"><h2 id="c3"><i>#</i>꒰✦꒱・temas</h2><p>avisos automáticos cuando cambia el fondo de nuvix</p></header>
+      <article class="msg">
+        <img class="av av-bot" src="assets/retrato/lain_wired.webp" alt="">
+        <div class="cuerpo">
+          <p class="quien"><b class="rol-bot">NuviX</b><span class="tag-bot">✓ APP</span><time>hoy a las 18:42</time></p>
+          <div class="embed"><p class="emb-tit" id="temaTit">✦ nuevo tema: Lain Wired</p><p>Cambié de fondo. La paleta, el rol y el ícono ya siguen al tema.</p>
+            <video id="temaCard" src="assets/tema/lain_wired_1.mp4" muted loop playsinline autoplay preload="metadata" aria-label="Tarjeta del tema"></video></div>
+        </div>
+      </article>
+      <article class="msg sigue"><div class="cuerpo"><p class="nota-sist">y así con cada uno de los 29 temas del escritorio:</p>
+        <div class="galeria" id="galeria"></div></div></article>
+    </section>
 
-  <section class="wrap blq" id="stack" aria-labelledby="hStack">
-    <h2 id="hStack">Con qué está hecho</h2>
-    <div class="stack">
-      <span>Python 3</span><span>discord.py 2.7</span><span>aiohttp</span><span>Pillow</span><span>python-docx</span><span>systemd</span><span>Docker</span><span>Uptime Kuma</span><span>ntfy</span><span>Google Cloud</span><span>rclone (respaldo cifrado)</span>
-      <span>AniList</span><span>MangaUpdates</span><span>CheapShark</span><span>GamerPower</span><span>Open-Meteo</span><span>Twitch Helix</span><span>YouTube RSS</span><span>GitHub Events</span>
-    </div>
-  </section>
+    <section class="canal" id="comandos" aria-labelledby="c4">
+      <header class="cab"><h2 id="c4"><i>#</i>꒰⌨꒱・comandos</h2><p>el único canal donde el bot responde</p></header>
+      <article class="msg">
+        <img class="av av-bot" src="assets/retrato/lain_wired.webp" alt="">
+        <div class="cuerpo">
+          <p class="quien"><b class="rol-bot">NuviX</b><span class="tag-bot">✓ APP</span><time>hoy a las 18:43</time></p>
+          <p>esto es lo que sé hacer ☾ <span class="tenue">(lo marcado con 🔒 solo lo puede usar nuvix)</span></p>
+          <div id="embeds"></div>
+        </div>
+      </article>
+    </section>
 
-  <footer class="wrap pie"><p>Hecho por <a href="https://github.com/NuviX16">NuviX16</a> · el código vive en un repo privado porque incluye la configuración del servidor.</p></footer>
-</main>
-<script src="app.js"></script>
+    <section class="canal" id="tarjetas" aria-labelledby="c5">
+      <header class="cab"><h2 id="c5"><i>#</i>꒰✧꒱・tarjetas</h2><p>imágenes que el bot dibuja con Pillow al momento</p></header>
+      <div class="usa"><span class="flecha">╭</span><img src="assets/img/yo.webp" alt=""><b class="rol-yo">nuvix</b> usó <code>/perfil</code></div>
+      <article class="msg"><img class="av av-bot" src="assets/retrato/lain_wired.webp" alt="">
+        <div class="cuerpo"><p class="quien"><b class="rol-bot">NuviX</b><span class="tag-bot">✓ APP</span><time>hoy a las 18:44</time></p>
+          <img class="adjunto img" src="assets/img/perfil.webp" alt="Tarjeta de /perfil" loading="lazy"></div></article>
+      <div class="usa"><span class="flecha">╭</span><img src="assets/img/yo.webp" alt=""><b class="rol-yo">nuvix</b> usó <code>/spotify</code></div>
+      <article class="msg"><img class="av av-bot" src="assets/retrato/lain_wired.webp" alt="">
+        <div class="cuerpo"><p class="quien"><b class="rol-bot">NuviX</b><span class="tag-bot">✓ APP</span><time>hoy a las 18:45</time></p>
+          <img class="adjunto img" src="assets/img/spotify.webp" alt="Tarjeta de /spotify" loading="lazy"></div></article>
+      <div class="usa"><span class="flecha">╭</span><img src="assets/img/yo.webp" alt=""><b class="rol-yo">nuvix</b> usó <code>/nivel</code></div>
+      <article class="msg"><img class="av av-bot" src="assets/retrato/lain_wired.webp" alt="">
+        <div class="cuerpo"><p class="quien"><b class="rol-bot">NuviX</b><span class="tag-bot">✓ APP</span><time>hoy a las 18:45</time></p>
+          <img class="adjunto img chica" src="assets/img/nivel.webp" alt="Tarjeta de /nivel" loading="lazy"></div></article>
+    </section>
+
+    <section class="canal" id="hecho-con" aria-labelledby="c6">
+      <header class="cab"><h2 id="c6"><i>#</i>꒰☁꒱・hecho-con</h2><p>las herramientas detrás del bot</p></header>
+      <article class="msg">
+        <img class="av" src="assets/img/yo.webp" alt="">
+        <div class="cuerpo">
+          <p class="quien"><b class="rol-yo">nuvix</b><time>hoy a las 18:46</time></p>
+          <p><b>Python</b> con discord.py y aiohttp · <b>Pillow</b> para las tarjetas · <b>python-docx</b> para los reportes</p>
+          <p>corre con <b>systemd</b> en Google Cloud, <b>Docker</b> para Uptime Kuma, avisos al celular con <b>ntfy</b> y respaldo cifrado con <b>rclone</b></p>
+          <p>los avisos salen de <b>AniList</b>, <b>MangaUpdates</b>, <b>CheapShark</b>, <b>GamerPower</b>, <b>Open-Meteo</b>, <b>Twitch</b>, <b>YouTube</b> y <b>GitHub</b></p>
+          <p class="tenue">el código vive en un repo privado porque incluye la configuración del server. el escritorio que lo alimenta está en <a href="https://nuvix16.github.io/Rice-NuviX/">nuvix16.github.io/Rice-NuviX</a> y mi portafolio en <a href="https://nuvix16.github.io/Portafolio-NuviX/">nuvix16.github.io/Portafolio-NuviX</a></p>
+        </div>
+      </article>
+      <div class="escribiendo"><span></span><span></span><span></span> <b>NuviX</b> está escribiendo…</div>
+    </section>
+  </main>
+</div>
+</section>
+<footer class="pie">
+  <p>Hecho por <a href="https://github.com/NuviX16">NuviX16</a> · <a href="https://nuvix16.github.io/Rice-NuviX/">el escritorio</a> · <a href="https://nuvix16.github.io/Portafolio-NuviX/">portafolio</a></p>
+</footer>
+<script src="app.js?v=7"></script>
 </body>
 </html>

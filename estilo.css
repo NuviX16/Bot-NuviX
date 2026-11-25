@@ -1,73 +1,205 @@
-/* Mismo lenguaje que el sitio del rice, con el acento de Discord mezclado con el del tema Lain Wired. */
+/* NuviX Bot — la página ES el servidor de Discord: barra de servidores, lista de canales y mensajes.
+   Colores de Discord (modo oscuro) con el morado del rol de nuvix. */
 :root {
   color-scheme: dark;
-  --base: #14111f; --mantle: #0f0d18; --crust: #0a0910; --text: #eee8f8; --sub: #a99fbb;
-  --s0: #1f1b2c; --s1: #2a2539; --acc: #b49cf0; --blurple: #5865f2;
-  --line: color-mix(in srgb, var(--text) 12%, transparent);
-  --f-disp: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
-  --f-body: "Inter", system-ui, -apple-system, sans-serif;
-  --f-mono: "JetBrains Mono", ui-monospace, monospace;
+  --srv: #1e1f22; --lat: #2b2d31; --chat: #313338; --embed: #2b2d31; --hover: #2e3035;
+  --texto: #dbdee1; --blanco: #f2f3f5; --tenue: #949ba4; --link: #00a8fc; --blurple: #5865f2;
+  --rol-yo: #b49cf0; --rol-bot: #8f9bff; --mencion: #c9cdfb;
+  --sans: "Noto Sans", "gg sans", system-ui, -apple-system, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
 }
 * { box-sizing: border-box }
-html { scroll-behavior: smooth }
-body { margin: 0; background: var(--crust); color: var(--text); font: 15px/1.6 var(--f-body) }
-a { color: var(--acc) }
-code { font-family: var(--f-mono); font-size: .88em; background: var(--s0); padding: 1px 5px; border-radius: 5px; color: var(--acc) }
-.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
-h1, h2, h3 { font-family: var(--f-disp); text-wrap: balance; margin: 0 }
-h2 { font-size: clamp(1.5rem, 3vw, 2rem) }
-h3 { font: 600 .76rem var(--f-body); text-transform: uppercase; letter-spacing: .12em; color: var(--sub) }
-p { margin: 0; max-width: 68ch }
-.muted { color: var(--sub) }
-.blq { padding-block: 4rem 0; display: grid; gap: 1.1rem }
-.btn { padding: .65rem 1.1rem; border-radius: 999px; background: var(--acc); color: var(--crust); font-weight: 600; text-decoration: none }
-.btn.sec { background: var(--base); color: var(--text); border: 1px solid var(--line) }
-.btn:focus-visible, button:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px }
+html { scroll-behavior: smooth; scroll-padding-top: 56px }
+body { margin: 0; background: var(--chat); color: var(--texto); font: 400 16px/1.375 var(--sans) }
+a { color: var(--link); text-decoration: none } a:hover { text-decoration: underline }
+p { margin: 0 }
+img, video { max-width: 100% }
+code { font-family: var(--mono); font-size: .85em; background: var(--srv); padding: .1em .35em; border-radius: 4px; color: var(--blanco) }
+:focus-visible { outline: 2px solid var(--link); outline-offset: 2px }
 
-.hero { display: grid; grid-template-columns: 1fr 1.1fr; gap: 2rem; align-items: center; padding-block: calc(env(safe-area-inset-top, 0px) + 3.5rem) 1rem;
-  background: radial-gradient(60% 80% at 80% 30%, color-mix(in srgb, var(--blurple) 22%, transparent), transparent 70%) }
-.hero-txt { display: grid; gap: 1rem; min-width: 0 }
-.kicker { font: 600 .8rem var(--f-mono); color: var(--acc); letter-spacing: .08em }
-.hero h1 { font-size: clamp(2.8rem, 8vw, 5.4rem); line-height: .95 }
-.hero h1 span { color: var(--acc) }
-.cifras { display: flex; gap: 1.6rem; flex-wrap: wrap; font-size: .82rem; color: var(--sub) }
-.cifras b { display: block; font: 700 1.6rem var(--f-disp); color: var(--text); font-variant-numeric: tabular-nums }
-.botones { display: flex; gap: .6rem; flex-wrap: wrap }
-.hero-vid { min-width: 0 }
-.hero-vid video { width: 100%; border-radius: 16px; border: 1px solid var(--line); display: block; background: #000 }
-@media (max-width: 860px) { .hero { grid-template-columns: 1fr } }
+.app { display: grid; grid-template-columns: 72px 240px 1fr; min-height: 100vh }
 
-.arq { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1rem; align-items: center }
-.nodo { background: var(--base); border: 1px solid var(--line); border-radius: 16px; padding: 1.1rem; display: grid; gap: .5rem; min-width: 0 }
-.nodo b { font-family: var(--f-mono); color: var(--acc) }
-.nodo ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .2rem; color: var(--sub); font-size: .92rem }
-.enlace { display: grid; justify-items: center; gap: .2rem; text-align: center; font-size: .8rem; color: var(--sub) }
-.enlace i { font-style: normal; font-size: 2rem; color: var(--acc) }
-@media (max-width: 760px) { .arq { grid-template-columns: 1fr } .enlace i { transform: rotate(90deg) } }
+/* columna de servidores */
+.servidores { position: sticky; top: 0; height: 100vh; background: var(--srv); display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 12px 0 }
+.srv { width: 48px; height: 48px; flex: none; border-radius: 50%; overflow: hidden; display: grid; place-items: center; background: var(--chat); color: var(--blanco); transition: border-radius .2s, background .2s; position: relative }
+.srv img { width: 100%; height: 100%; object-fit: cover }
+.srv svg { width: 26px; height: 26px }
+.srv:hover, .srv.activo { border-radius: 16px }
+.srv:hover { background: var(--blurple); text-decoration: none }
+.servidores .sep { width: 32px; height: 2px; border-radius: 1px; background: #35363c; flex: none }
 
-.tarjetas { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: .8rem }
-.tarjetas video { width: 100%; border-radius: 12px; display: block; background: var(--mantle) }
+/* columna de canales */
+.canales { position: sticky; top: 0; height: 100vh; background: var(--lat); display: flex; flex-direction: column; min-width: 0 }
+.banner { position: relative; height: 136px; overflow: hidden; flex: none }
+.banner img { width: 100%; height: 100%; object-fit: cover }
+.banner::after { content: ""; position: absolute; inset: 0; background: linear-gradient(#0000 40%, #000a) }
+.banner h1 { position: absolute; left: 16px; bottom: 10px; z-index: 1; margin: 0; font: 700 16px var(--sans); color: var(--blanco); text-shadow: 0 1px 4px #000 }
+.lista { flex: 1; overflow-y: auto; padding: 8px 8px 16px; display: flex; flex-direction: column; gap: 2px }
+.cat { font: 600 11px var(--sans); color: var(--tenue); padding: 18px 8px 4px; letter-spacing: .02em }
+.lista a { color: var(--tenue); padding: 6px 8px; border-radius: 4px; font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.lista a:hover { background: var(--hover); color: var(--texto); text-decoration: none }
+.lista a.activo { background: #404249; color: var(--blanco) }
+.yo { display: flex; align-items: center; gap: 8px; padding: 8px; background: #232428; flex: none }
+.yo img { width: 32px; height: 32px; border-radius: 50% }
+.yo div { display: grid; line-height: 1.2 }
+.yo b { font-size: 14px; color: var(--blanco) } .yo small { font-size: 12px; color: var(--tenue) }
 
-.filtros { display: flex; gap: .4rem; flex-wrap: wrap }
-.chip { padding: .38rem .8rem; border-radius: 999px; border: 1px solid var(--line); background: var(--s0); color: var(--text); font: 500 .84rem var(--f-body); cursor: pointer }
-.chip[aria-pressed="true"] { border-color: var(--acc); background: color-mix(in srgb, var(--acc) 18%, var(--s0)) }
-.funciones { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem }
-.grupo { background: var(--base); border: 1px solid var(--line); border-radius: 16px; padding: 1rem 1.1rem; display: grid; gap: .7rem; align-content: start }
-.grupo header { display: flex; justify-content: space-between; align-items: baseline; gap: .5rem }
-.grupo header b { font-family: var(--f-disp); font-size: 1.15rem }
-.grupo header small { font: 600 .72rem var(--f-mono); color: var(--sub) }
-.grupo > p { font-size: .9rem; color: var(--sub) }
-.cmds { display: grid; gap: .35rem; margin: 0; padding: 0; list-style: none }
-.cmds li { display: grid; grid-template-columns: minmax(0, auto) 1fr; gap: .2rem .6rem; font-size: .86rem; align-items: baseline }
-.cmds code { white-space: nowrap }
-.cmds span { color: var(--sub) }
-.cmds .solo { font: 600 .62rem var(--f-mono); color: var(--crust); background: var(--acc); padding: 0 5px; border-radius: 4px; margin-left: 4px }
+/* chat */
+.chat { min-width: 0; padding-bottom: 4rem }
+.canal { padding-bottom: 2.4rem }
+.cab { position: sticky; top: 0; z-index: 3; height: 48px; display: flex; align-items: center; gap: 12px; padding: 0 16px; background: var(--chat); box-shadow: 0 1px 0 #0003, 0 2px 0 #0000000d; overflow: hidden }
+.cab h2 { margin: 0; font: 600 16px var(--sans); color: var(--blanco); white-space: nowrap; display: flex; align-items: center; gap: 6px }
+.cab h2 i { font-style: normal; color: var(--tenue); font-size: 22px; font-weight: 400 }
+.cab p { color: var(--tenue); font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-left: 12px; border-left: 1px solid #3f4147 }
 
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem }
-.cards figure { margin: 0; display: grid; gap: .5rem; align-content: start }
-.cards img { width: 100%; border-radius: 14px; display: block }
-.cards figcaption { font-size: .86rem; color: var(--sub) }
-.stack { display: flex; flex-wrap: wrap; gap: .4rem }
-.stack span { padding: .32rem .75rem; border-radius: 999px; background: var(--base); border: 1px solid var(--line); font-size: .84rem }
-.pie { padding-block: 4rem 3rem; color: var(--sub); font-size: .85rem }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto } }
+.msg { display: grid; grid-template-columns: 40px 1fr; gap: 16px; padding: 2px 48px 2px 16px; margin-top: 17px }
+.msg:hover { background: #2e3035 }
+.msg.sigue { margin-top: 0; padding-left: 72px; grid-template-columns: 1fr }
+.av { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-top: 2px }
+.cuerpo { min-width: 0; display: grid; gap: 4px; max-width: 760px }
+.quien { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap }
+.quien b { font-weight: 600 }
+.rol-yo { color: var(--rol-yo) } .rol-bot { color: var(--rol-bot) }
+.quien time { font-size: 12px; color: var(--tenue) }
+.tag-bot { font: 600 10px var(--sans); background: var(--blurple); color: #fff; padding: 1px 4px; border-radius: 3px; position: relative; top: -1px }
+.tenue { color: var(--tenue) }
+.nota-sist { color: var(--tenue); font-style: italic; font-size: 14px }
+
+.adjunto { margin-top: 6px; border-radius: 8px; overflow: hidden; max-width: 560px }
+.adjunto video, img.adjunto { display: block; width: 100%; background: #000 }
+img.adjunto { max-width: 520px } img.adjunto.chica { max-width: 440px }
+.reacciones { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap }
+.reacciones span { display: inline-flex; align-items: center; gap: 6px; padding: 2px 8px; border-radius: 8px; background: #373a54; border: 1px solid var(--blurple); font-size: 14px; font-weight: 600; color: var(--mencion) }
+.reacciones img { width: 18px; height: 18px }
+
+.bloque-codigo { margin: 6px 0 2px; padding: 10px 12px; background: var(--lat); border: 1px solid #1e1f22; border-radius: 4px; font: 12.5px/1.45 var(--mono); color: var(--texto); overflow-x: auto; white-space: pre; max-width: 100% }
+.bloque-codigo b { color: var(--rol-yo); font-weight: 600 } .bloque-codigo .c { color: var(--tenue) }
+.lista-msg { margin: 4px 0 0; padding-left: 1.4rem; display: grid; gap: 2px }
+
+/* embeds */
+.embed { margin-top: 6px; max-width: 520px; display: grid; gap: 8px; padding: 10px 16px 14px 12px; background: var(--embed); border-left: 4px solid var(--rol-yo); border-radius: 4px; font-size: 14px }
+.embed video, .embed img { width: 100%; border-radius: 4px; display: block }
+.emb-tit { font-weight: 600; color: var(--blanco); font-size: 16px }
+#embeds { display: grid; gap: 4px }
+.embed.cmds { max-width: 640px }
+.campos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 16px }
+.campo b { display: block; font: 600 13px var(--mono); color: var(--blanco); margin-bottom: 1px }
+.campo span { color: var(--texto) }
+@media (max-width: 560px) { .campos { grid-template-columns: 1fr } }
+
+/* galería de temas (como varias imágenes adjuntas) */
+.galeria { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; max-width: 640px; margin-top: 6px; border-radius: 8px; overflow: hidden }
+.galeria video { width: 100%; display: block; aspect-ratio: 1000 / 340; object-fit: cover; background: var(--srv) }
+
+/* "nuvix usó /comando" */
+.usa { display: flex; align-items: center; gap: 4px; margin: 17px 0 -14px 0; padding-left: 36px; font-size: 14px; color: var(--tenue) }
+.usa .flecha { font: 400 20px/1 var(--mono); color: #4e5058; margin-right: 4px; position: relative; top: 4px }
+.usa img { width: 16px; height: 16px; border-radius: 50% }
+.usa b { font-weight: 500 }
+.usa code { margin-left: 2px; color: var(--link); background: none; padding: 0 }
+
+.escribiendo { padding: 8px 16px 0 16px; font-size: 13px; color: var(--tenue) }
+.escribiendo b { color: var(--blanco); font-weight: 600 }
+.escribiendo span { display: inline-block; width: 6px; height: 6px; margin-right: 2px; border-radius: 50%; background: var(--tenue); animation: punto 1.2s infinite }
+.escribiendo span:nth-child(2) { animation-delay: .2s } .escribiendo span:nth-child(3) { animation-delay: .4s }
+@keyframes punto { 0%, 60%, 100% { opacity: .3 } 30% { opacity: 1 } }
+
+/* celular: los canales pasan a una barra arriba */
+@media (max-width: 860px) {
+  html { scroll-padding-top: 104px }
+  .app { grid-template-columns: 1fr }
+  .servidores { display: none }
+  .canales { position: sticky; top: 0; z-index: 5; height: 56px; flex-direction: row; align-items: center; box-shadow: 0 1px 0 #0004 }
+  .banner { height: 56px; width: 56px } .banner h1 { display: none }
+  .lista { flex-direction: row; overflow-x: auto; padding: 8px; gap: 4px; scrollbar-width: none }
+  .cat, .yo { display: none }
+  .lista a { flex: none; font-size: 14px }
+  .cab { top: 56px }
+  .msg { padding-right: 12px; gap: 12px } .msg.sigue { padding-left: 68px }
+  .bloque-codigo { font-size: 10.5px }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto } .escribiendo span { animation: none } }
+
+/* ===== portada tipo invitación ===== */
+body { background: #0b0b12 }
+.invitacion { position: relative; overflow: hidden; padding: calc(env(safe-area-inset-top, 0px) + 5rem) max(20px, env(safe-area-inset-right, 0px)) 5rem max(20px, env(safe-area-inset-left, 0px)) }
+.inv-fondo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: blur(36px) saturate(1.2) brightness(.45); transform: scale(1.2) }
+.inv-velo { position: absolute; inset: 0; background: radial-gradient(60% 70% at 78% 45%, color-mix(in srgb, var(--rol-yo) 22%, transparent), transparent 70%), linear-gradient(0deg, #0b0b12 0%, transparent 40%) }
+.inv-cont { position: relative; max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem; align-items: center }
+.inv-txt { display: grid; gap: 1.2rem }
+.inv-meta { font: 600 .74rem var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--rol-yo) }
+.invitacion h1 { margin: 0; font: 800 clamp(2.2rem, 4.6vw, 3.6rem)/1.08 var(--sans); letter-spacing: -.02em; color: var(--blanco); text-wrap: balance }
+.invitacion h1 span { color: var(--rol-yo); transition: color .4s }
+.inv-txt > p:last-child { color: #c4c7cc; font-size: 1.08rem; max-width: 50ch }
+.tarjeta-inv { justify-self: end; width: min(400px, 100%); background: #232428; border-radius: 16px; overflow: hidden; box-shadow: 0 40px 80px -30px #000, 0 0 0 1px #ffffff0d }
+.inv-banner { width: 100%; height: 120px; object-fit: cover; display: block }
+.inv-cuerpo { position: relative; padding: 52px 22px 22px; display: grid; gap: 6px }
+.inv-icono { position: absolute; left: 18px; top: -40px; width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 6px solid #232428; background: #232428 }
+.inv-te { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--tenue); letter-spacing: .02em }
+.inv-nom { font: 700 1.4rem var(--sans); color: var(--blanco); display: flex; align-items: center; gap: 8px }
+.inv-est { font-size: 14px; color: var(--tenue); display: flex; align-items: center; gap: 6px }
+.inv-est i { width: 8px; height: 8px; border-radius: 50%; display: inline-block }
+.en-linea { background: #23a55a } .gris { background: #80848e; margin-left: 8px }
+.inv-temas { margin: 12px 0 8px; padding: 12px; background: #1e1f22; border-radius: 8px; display: grid; gap: 8px }
+.inv-temas p { font-size: 12px; color: var(--tenue); font-weight: 600 }
+#temasInv { display: flex; gap: 8px; flex-wrap: wrap }
+.tema-btn { width: 34px; height: 34px; border-radius: 50%; padding: 0; border: 2px solid transparent; cursor: pointer; overflow: hidden; background: #000; transition: transform .2s, border-color .2s }
+.tema-btn img { width: 100%; height: 100%; object-fit: cover; display: block }
+.tema-btn:hover { transform: translateY(-2px) }
+.tema-btn[aria-checked="true"] { border-color: var(--rol-yo) }
+.inv-btn { display: block; text-align: center; padding: 11px; border-radius: 4px; background: #248046; color: #fff; font-weight: 600; font-size: 14px; margin-top: 4px }
+.inv-btn:hover { background: #1a6334; text-decoration: none }
+.inv-btn.sec { background: #4e5058 } .inv-btn.sec:hover { background: #6d6f78 }
+@media (max-width: 900px) { .inv-cont { grid-template-columns: 1fr; gap: 2.4rem } .tarjeta-inv { justify-self: start } }
+
+/* ===== Discord dentro de una ventana ===== */
+.ventana-app { max-width: 1240px; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-right, 0px)) 0 max(20px, env(safe-area-inset-left, 0px)); scroll-margin-top: 20px }
+.ventana-app .app { height: min(860px, 88vh); min-height: 0; border-radius: 14px; overflow: hidden; box-shadow: 0 50px 100px -40px #000, 0 0 0 1px #ffffff12; grid-template-rows: 100% }
+.ventana-app .servidores, .ventana-app .canales { position: static; height: 100% }
+.ventana-app .chat { overflow-y: auto; scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #1a1b1e transparent }
+.ventana-app .cab { top: 0 }
+.pie { max-width: 1240px; margin: 0 auto; padding: 3rem 20px 4rem; color: var(--tenue); font-size: .9rem }
+.pie a { color: var(--blanco) }
+@media (max-width: 860px) {
+  .ventana-app .app { height: 82vh; grid-template-rows: 56px 1fr }
+  .ventana-app .canales { height: 56px }
+  .ventana-app .cab { top: 0 }
+}
+
+/* mensaje de sistema y bienvenida animada */
+.sistema { display: grid; grid-template-columns: 40px 1fr; gap: 16px; padding: 2px 48px 2px 16px; margin-top: 17px; align-items: center; color: var(--tenue); font-size: 15px }
+.sistema .flecha-verde { justify-self: center; color: #23a55a; font-size: 20px; font-weight: 700 }
+.sistema b { color: var(--blanco); font-weight: 600 }
+.sistema time { font-size: 12px; margin-left: 4px }
+.mencion { background: #5865f24d; color: var(--mencion); border-radius: 3px; padding: 0 2px; font-weight: 500 }
+.sub { font-size: 13px; color: var(--tenue) }
+.bienvenida-anim { margin-top: 6px; width: 100%; max-width: 440px; display: block; border-radius: 15px; background: var(--lat) }
+@media (max-width: 860px) { .sistema { padding-right: 12px; gap: 12px } }
+
+/* ===== la ventana como mi Vesktop: fondo del tema desenfocado y paneles translúcidos ===== */
+.ventana-app .app { position: relative; isolation: isolate; background: #0b0b12; --fondo-app: url("assets/fondo/lain_wired.webp") }
+.ventana-app .app::before { content: ""; position: absolute; inset: -40px; z-index: -1; background: var(--fondo-app) center / cover; filter: blur(26px) saturate(1.15) brightness(.42); transition: background-image .4s }
+.ventana-app .servidores { background: rgba(8, 8, 14, .55) }
+.ventana-app .canales { background: rgba(14, 14, 22, .45); backdrop-filter: blur(4px) }
+.ventana-app .banner::after { background: linear-gradient(#0000 30%, #000c) }
+.ventana-app .yo { background: rgba(8, 8, 14, .5) }
+.ventana-app .chat { background: rgba(18, 18, 28, .38) }
+.ventana-app .cab { background: rgba(16, 16, 26, .72); backdrop-filter: blur(12px); box-shadow: 0 1px 0 #ffffff0f }
+.ventana-app .lista a.activo { background: color-mix(in srgb, var(--rol-yo) 26%, transparent); color: var(--blanco) }
+.ventana-app .lista a:hover { background: #ffffff10 }
+.ventana-app .srv { background: rgba(255, 255, 255, .06) }
+.ventana-app .embed, .ventana-app .bloque-codigo { background: rgba(0, 0, 0, .32); border-color: transparent }
+.ventana-app .embed { border-left-color: var(--rol-yo) }
+.ventana-app .embed.cmds { border-left-color: inherit }
+.ventana-app code { background: rgba(0, 0, 0, .35) }
+.ventana-app .reacciones span { background: color-mix(in srgb, var(--rol-yo) 18%, rgba(0,0,0,.3)); border-color: color-mix(in srgb, var(--rol-yo) 60%, transparent); color: var(--blanco) }
+.ventana-app .tag-bot { background: color-mix(in srgb, var(--rol-yo) 70%, #5865f2) }
+/* sin resaltado gris al pasar el cursor */
+.msg:hover, .ventana-app .msg:hover { background: none }
+/* el último canal puede subir hasta arriba */
+.ventana-app .chat > .canal:last-of-type { min-height: 100% }
+/* el chat se desplaza dentro de la ventana (antes crecía y la ventana lo recortaba) */
+.ventana-app .app { grid-template-rows: minmax(0, 1fr) }
+.ventana-app .chat, .ventana-app .canales, .ventana-app .servidores { min-height: 0; height: 100% }
+.ventana-app .chat { overflow-y: auto; overscroll-behavior: contain }
+@media (max-width: 860px) { .ventana-app .app { grid-template-rows: 56px minmax(0, 1fr) } .ventana-app .canales { height: 56px } }

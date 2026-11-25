@@ -1,55 +1,59 @@
 const $ = id => document.getElementById(id);
 
-$("cifras").innerHTML = [["60", "comandos"], ["27", "módulos"], ["4.9k", "líneas de Python"], ["24/7", "en la nube"]]
-  .map(([n, t]) => `<div><b>${n}</b>${t}</div>`).join("");
+// galería: tarjetas de tema como imágenes adjuntas
+const temas = ["reze_sunset_1", "rei_winter_1", "geass_invierno_1", "bocchi_white_1", "kaneki_ghoul_1", "tsuna_hyper_1", "rukia_bankai_1", "lain_wired_1"];
+$("galeria").innerHTML = temas.map(k => `<video src="assets/tema/${k}.mp4" muted loop playsinline autoplay preload="metadata" aria-hidden="true"></video>`).join("");
 
-// tarjetas animadas de tema
-const temas = [["lain_wired_1", "Lain Wired"], ["reze_sunset_1", "Reze Sunset"], ["rei_winter_1", "Rei Winter"], ["geass_invierno_1", "Geass Invierno"],
-  ["bocchi_white_1", "Bocchi White"], ["kaneki_ghoul_1", "Kaneki Ghoul"], ["tsuna_hyper_1", "Tsuna Hyper"], ["rukia_bankai_1", "Rukia Bankai"]];
-$("tarjetas").innerHTML = temas.map(([k, n]) =>
-  `<video src="assets/tema/${k}.mp4" muted loop playsinline autoplay preload="metadata" aria-label="Tarjeta del tema ${n}"></video>`).join("");
-
-// funciones por grupo; s = solo el dueño
-const grupos = [
-  { n: "Comunidad", d: "La entrada al servidor y lo que hace que la gente se quede.", c: [
-    ["botón de entrada", "sin él solo se ven las reglas y la guía"], ["roles por botón", "linux, gaming, anime, música, avisos"],
-    ["/encuesta", "con botones y cierre automático"], ["/plan", "arma una partida o salida y crea el evento"],
-    ["Citar", "menú contextual: convierte un mensaje en tarjeta"], ["tickets", "canal privado con el staff"],
-    ["#jugando-ahora", "panel con lo que juega cada quien"], ["destacados", "los mensajes con 3 ⭐ pasan a la vitrina"],
-    ["concurso", "escritorio de la semana, domingo 20:00"]] },
-  { n: "Niveles y lunas ☾", d: "XP por hablar y una economía propia para gastar en colores.", c: [
-    ["/nivel", "tarjeta con tu progreso"], ["/top", "ranking del servidor"], ["/temporada", "tabla del mes"], ["/diaria", "lunas del día, con racha"],
-    ["/misiones", "3 retos diarios que pagan lunas"], ["/tienda", "8 colores de nombre + color propio"], ["/regalar", "pásale lunas a alguien"],
-    ["/perfil", "tarjeta completa; /perfil-editar cambia frase y color"]] },
-  { n: "Para pasar el rato", d: "Minijuegos y cosas para presumir.", c: [
-    ["/pescar", "28 especies, cada 45 min"], ["/coleccion", "lo que has pescado"], ["/vender", "repetidos por lunas"],
-    ["/loteria", "boletos de 50 ☾, sorteo el sábado 21:00"], ["/cumple", "felicitación automática a las 9:00"],
-    ["/spotify", "tarjeta de lo que alguien escucha"], ["/top-juegos", "lo más jugado del servidor"]] },
-  { n: "Avisos", d: "Revisa APIs públicas cada rato y avisa en su canal.", c: [
-    ["/anime seguir", "episodios nuevos (AniList)"], ["/manga seguir", "capítulos de manga, manhwa y manhua (MangaUpdates)"],
-    ["/oferta seguir", "cuando un juego baja de precio (CheapShark)"], ["juegos gratis", "Epic, Steam y más (GamerPower)"],
-    ["directos y videos", "Twitch y YouTube en anuncios"], ["devlog", "mis commits y PRs públicos de GitHub"]] },
-  { n: "El escritorio", d: "Lo que conecta el servidor con mi Arch Linux.", c: [
-    ["/rice", "resumen del escritorio con la tarjeta del tema"], ["/tema", "tema actual y su paleta"], ["/nowplaying", "lo que suena en mi Spotify"],
-    ["/frase", "la frase del escritorio"], ["/captura", "foto del escritorio en un workspace vacío", 1], ["/video · /stream", "anuncia contenido nuevo", 1],
-    ["/pc", "estado, tema, bloquear, música, volumen, actualizaciones, salud", 1]] },
-  { n: "Mi día", d: "Un asistente personal en un canal privado.", c: [
-    ["/midia", "resumen con clima de Tepic, clases y pendientes", 1], ["/tarea", "entregas con aviso un día antes", 1],
-    ["/horario", "aviso 10 min antes de cada clase", 1], ["/bitacora", "bitácora de la estadía y reporte .docx", 1],
-    ["/idea", "banco de ideas para videos", 1], ["panel web", "tareas e ideas desde el navegador", 1], ["al celular", "los avisos importantes llegan por ntfy", 1]] },
-  { n: "Moderación", d: "Para que el servidor se cuide solo.", c: [
-    ["AutoMod", "spam y menciones masivas → aislamiento 10 min"], ["registro", "canal privado con todo lo que pasa"],
-    ["comandos en su canal", "fuera de #comandos el bot no responde"], ["límites", "30 s entre comandos por persona"]] },
+// un embed por área, como los manda el bot; el tercer valor marca lo que solo usa nuvix
+const areas = [
+  ["Comunidad", "#57f287", [["botón de entrada", "sin él solo se ven reglas y guía"], ["roles por botón", "linux, gaming, anime, música"],
+    ["/encuesta", "botones y cierre automático"], ["/plan", "arma una partida o salida"], ["Citar", "un mensaje convertido en tarjeta"],
+    ["tickets", "canal privado con el staff"], ["#jugando-ahora", "lo que juega cada quien"], ["destacados", "3 ⭐ y pasa a la vitrina"]]],
+  ["Niveles y lunas ☾", "#b49cf0", [["/nivel", "tu progreso en tarjeta"], ["/top", "ranking del server"], ["/temporada", "tabla del mes"],
+    ["/diaria", "lunas del día, con racha"], ["/misiones", "3 retos diarios"], ["/tienda", "colores para tu nombre"], ["/regalar", "pasa lunas a alguien"], ["/perfil", "tu tarjeta completa"]]],
+  ["Para pasar el rato", "#fee75c", [["/pescar", "28 especies, cada 45 min"], ["/coleccion", "lo que has pescado"], ["/vender", "repetidos por lunas"],
+    ["/loteria", "sorteo el sábado 21:00"], ["/cumple", "felicitación a las 9:00"], ["/spotify", "lo que alguien escucha"], ["/top-juegos", "lo más jugado"]]],
+  ["Avisos", "#00a8fc", [["/anime seguir", "episodios nuevos (AniList)"], ["/manga seguir", "capítulos nuevos (MangaUpdates)"],
+    ["/oferta seguir", "cuando un juego baja de precio"], ["juegos gratis", "Epic, Steam y más"], ["directos y videos", "Twitch y YouTube"], ["devlog", "mis commits de GitHub"]]],
+  ["El escritorio de nuvix", "#f0a0c8", [["/rice", "resumen con la tarjeta del tema"], ["/tema", "tema actual y su paleta"], ["/nowplaying", "lo que suena en su Spotify"],
+    ["/frase", "la frase del escritorio"], ["/captura", "foto del escritorio", 1], ["/pc", "estado, tema, música, volumen", 1]]],
+  ["Mi día", "#eb459e", [["/midia", "resumen con clima y clases", 1], ["/tarea", "entregas con aviso", 1], ["/horario", "aviso antes de cada clase", 1],
+    ["/bitacora", "bitácora y reporte .docx", 1], ["/idea", "ideas para videos", 1], ["panel web", "todo desde el navegador", 1]]],
+  ["Moderación", "#ed4245", [["AutoMod", "spam y menciones masivas"], ["registro", "todo lo que pasa, en privado"],
+    ["#comandos", "fuera de aquí no respondo"], ["límites", "30 s entre comandos"]]],
 ];
-const filtros = $("filtros");
-function ver(g) {
-  $("grupos").innerHTML = grupos.filter(x => g === "Todo" || x.n === g).map(x => `<article class="grupo">
-    <header><b>${x.n}</b><small>${x.c.length}</small></header><p>${x.d}</p>
-    <ul class="cmds">${x.c.map(([k, t, s]) => `<li><code>${k}</code><span>${t}${s ? '<span class="solo">dueño</span>' : ""}</span></li>`).join("")}</ul></article>`).join("");
-  filtros.querySelectorAll(".chip").forEach(b => b.setAttribute("aria-pressed", b.dataset.g === g));
+$("embeds").innerHTML = areas.map(([n, color, cmds]) => `<div class="embed cmds" style="border-left-color:${color}">
+  <p class="emb-tit">${n}</p><div class="campos">${cmds.map(([c, d, s]) =>
+    `<div class="campo"><b>${c}${s ? " 🔒" : ""}</b><span>${d}</span></div>`).join("")}</div></div>`).join("");
+
+// temas: lo mismo que pasa en el servidor cuando nuvix cambia de fondo
+const TEMAS = [{"k": "lain_wired", "n": "Lain Wired", "a": "#b49cf0"}, {"k": "reze_sunset", "n": "Reze Sunset", "a": "#e0a57a"},
+  {"k": "rei_winter", "n": "Rei Winter", "a": "#a8c4ec"}, {"k": "geass_invierno", "n": "Geass Invierno", "a": "#a9c0e0"},
+  {"k": "bocchi_white", "n": "Bocchi White", "a": "#f2a7c3"}, {"k": "kaneki_ghoul", "n": "Kaneki Ghoul", "a": "#cfd0d6"},
+  {"k": "tsuna_hyper", "n": "Tsuna Hyper", "a": "#f5b83d"}, {"k": "rukia_bankai", "n": "Rukia Bankai", "a": "#8fc4f0"}];
+function ponerTema(t) {
+  document.documentElement.style.setProperty("--rol-yo", t.a);
+  document.querySelectorAll(".av-bot").forEach(im => im.src = `assets/retrato/${t.k}.webp`);
+  ["invBanner", "bannerImg"].forEach(id => $(id).src = `assets/fondo/${t.k}.webp`);
+  document.querySelector(".app").style.setProperty("--fondo-app", `url("assets/fondo/${t.k}.webp")`);
+  ["invFondo", "temaCard"].forEach(id => { const v = $(id); v.src = `assets/tema/${t.k}_1.mp4`; v.play().catch(() => {}) });
+  const bv = $("bvVideo"); bv.src = `assets/bienvenida/${t.k}.mp4`; bv.play().catch(() => {});
+  $("temaTit").textContent = `✦ nuevo tema: ${t.n}`;
+  document.querySelectorAll(".tema-btn").forEach(b => b.setAttribute("aria-checked", b.dataset.k === t.k));
 }
-["Todo", ...grupos.map(x => x.n)].forEach(g => {
-  const b = document.createElement("button"); b.className = "chip"; b.type = "button"; b.dataset.g = g; b.textContent = g;
-  b.onclick = () => ver(g); filtros.append(b);
-});
-ver("Todo");
+$("temasInv").innerHTML = TEMAS.map(t => `<button type="button" role="radio" class="tema-btn" data-k="${t.k}" title="${t.n}" aria-label="${t.n}">
+  <img src="assets/retrato/${t.k}.webp" alt=""></button>`).join("");
+document.querySelectorAll(".tema-btn").forEach(b => b.onclick = () => ponerTema(TEMAS.find(t => t.k === b.dataset.k)));
+ponerTema(TEMAS[0]);
+
+// canales: se desplaza el chat de la ventana, no la página
+const chat = document.querySelector(".chat");
+const enlaces = [...document.querySelectorAll(".lista a")];
+enlaces.forEach(a => a.addEventListener("click", e => {
+  const sec = document.querySelector(a.getAttribute("href")); if (!sec) return;
+  e.preventDefault(); chat.scrollTo({ top: sec.offsetTop - chat.offsetTop, behavior: "smooth" });
+}));
+const obs = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) enlaces.forEach(a => a.classList.toggle("activo", a.getAttribute("href") === "#" + e.target.id));
+}), { root: chat, rootMargin: "-30% 0px -60% 0px" });
+document.querySelectorAll(".canal").forEach(s => obs.observe(s));
