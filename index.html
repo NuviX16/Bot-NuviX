@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NuviX Bot</title>
+<meta name="description" content="Bot de Discord en Python: comunidad, economía, avisos y un agente que conecta el servidor con mi escritorio Arch Linux.">
+<meta property="og:title" content="NuviX Bot">
+<meta property="og:description" content="Un bot de Discord que vive en Google Cloud y cambia de color con mi escritorio.">
+<meta property="og:image" content="assets/nuvix-bot.jpg">
+<link rel="icon" href="assets/img/avatar.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<header class="hero wrap">
+  <div class="hero-txt">
+    <div class="kicker">Python · discord.py · Google Cloud</div>
+    <h1>NuviX <span>Bot</span></h1>
+    <p>El bot de mi servidor «NuviX Basement». Corre 24/7 en una VM de Google Cloud, lleva niveles, economía y avisos para la comunidad, y habla con un agente en mi laptop: cuando cambio de fondo, el bot cambia de avatar, de ícono y de color.</p>
+    <div class="cifras" id="cifras"></div>
+    <div class="botones"><a class="btn" href="#funciones">Qué hace</a><a class="btn sec" href="https://nuvix16.github.io/Rice-NuviX/">El escritorio</a><a class="btn sec" href="https://github.com/NuviX16">GitHub</a></div>
+  </div>
+  <div class="hero-vid"><video controls preload="metadata" playsinline poster="assets/nuvix-bot.jpg" aria-label="Video del bot en acción"><source src="assets/nuvix-bot.mp4" type="video/mp4"></video></div>
+</header>
+
+<main>
+  <section class="wrap blq" id="arquitectura" aria-labelledby="hArq">
+    <h2 id="hArq">Cómo está armado</h2>
+    <p class="muted">Son dos procesos. El de la nube atiende a la gente; el de la laptop solo reporta el estado del escritorio. Se comunican por un canal privado del servidor, así la laptop no necesita abrir puertos.</p>
+    <div class="arq">
+      <div class="nodo"><h3>Laptop · Arch Linux</h3><b>agente_pc.py</b><ul><li>lee el tema, la música y la salud del sistema</li><li>cambia avatar, ícono y color del rol</li><li>responde a <code>/pc</code> con acciones permitidas</li><li>sobrevive a la suspensión (reconecta solo)</li></ul></div>
+      <div class="enlace"><span>mensaje de estado + pedidos</span><i aria-hidden="true">⇄</i><small>canal privado ꒰⚙꒱・nuvix-pc</small></div>
+      <div class="nodo"><h3>Google Cloud · e2-micro</h3><b>bot.py + 26 módulos</b><ul><li>comandos, botones y tareas programadas</li><li>datos en JSON, respaldo cifrado diario</li><li>Uptime Kuma vigila que siga vivo</li><li>avisos al celular con ntfy</li></ul></div>
+    </div>
+  </section>
+
+  <section class="wrap blq" id="tema" aria-labelledby="hTema">
+    <h2 id="hTema">Sigue al escritorio</h2>
+    <p class="muted">Cada cambio de fondo en la laptop llega al servidor como una tarjeta animada con el retrato y la paleta del tema nuevo. El rol del dueño, el avatar del bot y el ícono del servidor toman el mismo color.</p>
+    <div class="tarjetas" id="tarjetas"></div>
+  </section>
+
+  <section class="wrap blq" id="funciones" aria-labelledby="hFun">
+    <h2 id="hFun">Qué hace</h2>
+    <div class="filtros" id="filtros"></div>
+    <div class="funciones" id="grupos"></div>
+  </section>
+
+  <section class="wrap blq" id="tarjetas-bot" aria-labelledby="hCard">
+    <h2 id="hCard">Tarjetas que dibuja</h2>
+    <p class="muted">Todas se generan con Pillow en el momento, con el avatar y el color de cada quien.</p>
+    <div class="cards">
+      <figure><img src="assets/img/perfil.webp" alt="Tarjeta de /perfil" loading="lazy"><figcaption><code>/perfil</code> nivel, lunas, racha, pesca, lo que juegas y escuchas</figcaption></figure>
+      <figure><img src="assets/img/nivel.webp" alt="Tarjeta de /nivel" loading="lazy"><figcaption><code>/nivel</code> XP por mensajes, con roles a los niveles 5, 10, 20 y 30</figcaption></figure>
+      <figure><img src="assets/img/spotify.webp" alt="Tarjeta de /spotify" loading="lazy"><figcaption><code>/spotify</code> la canción de alguien con su portada de fondo</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="wrap blq" id="stack" aria-labelledby="hStack">
+    <h2 id="hStack">Con qué está hecho</h2>
+    <div class="stack">
+      <span>Python 3</span><span>discord.py 2.7</span><span>aiohttp</span><span>Pillow</span><span>python-docx</span><span>systemd</span><span>Docker</span><span>Uptime Kuma</span><span>ntfy</span><span>Google Cloud</span><span>rclone (respaldo cifrado)</span>
+      <span>AniList</span><span>MangaUpdates</span><span>CheapShark</span><span>GamerPower</span><span>Open-Meteo</span><span>Twitch Helix</span><span>YouTube RSS</span><span>GitHub Events</span>
+    </div>
+  </section>
+
+  <footer class="wrap pie"><p>Hecho por <a href="https://github.com/NuviX16">NuviX16</a> · el código vive en un repo privado porque incluye la configuración del servidor.</p></footer>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
